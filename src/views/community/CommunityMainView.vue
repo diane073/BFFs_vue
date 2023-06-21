@@ -454,7 +454,7 @@ a {
 
 .random-card-wrapper {
     display: grid;
-    grid-template-columns: 45% 5% 2% 30% 20%;
+    grid-template-columns: 43% 40px 2% 30% 20%;
     grid-template-rows: 50px 110px 40px;
 }
 .random-card-image-box {
@@ -565,7 +565,6 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 1%;
     margin-right: auto;
     grid-column: 2 / 3;
     grid-row:1 / 2;
@@ -587,14 +586,14 @@ a {
     content: "\002B";
     position: absolute;
     color: #909090;
-    font-size: 1.3em;
-    top: 2px;
+    font-size: 1.2em;
+    bottom: 7px;
 }
 
 #checkboxInput:checked + .bookmark::before {
     content: "\2713";
-    font-size: 1.0em;
-    top: 4px;
+    font-size: 1.1em;
+    top: 1px;
     color: #ffffff;
 }
 
@@ -609,7 +608,7 @@ a {
 
 .bookmark::after {
     content: "";
-    background-color: rgba(255, 213, 0, 0.342);
+    background-color: rgba(255, 183, 0, 0.788);
     position: absolute;
     width: 10px;
     height: 10px;
@@ -853,82 +852,5 @@ a {
     color: #808080;
     font-weight: 400;
     font-size: 0.9rem;
-}
-
-.bookmark {
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 1%;
-    margin-right: auto;
-    grid-column: 2 / 3;
-    grid-row:1 / 2;
-}
-
-#checkboxInput {
-    display: none;
-}
-
-.svgIcon {
-    height: 35px;
-}
-
-.svgIcon path {
-    fill: rgb(255, 255, 255);
-}
-
-.bookmark::before {
-    content: "\002B";
-    position: absolute;
-    color: #909090;
-    font-size: 1.3em;
-    top: 2px;
-}
-
-#checkboxInput:checked + .bookmark::before {
-    content: "\2713";
-    font-size: 1.0em;
-    top: 4px;
-    color: #ffffff;
-}
-
-#checkboxInput:checked + .bookmark .svgIcon path {
-    fill: rgb(253, 184, 9);
-    color: white;
-}
-
-#checkboxInput:active + .bookmark .svgIcon path {
-    fill: rgb(255, 255, 255);
-}
-
-.bookmark::after {
-    content: "";
-    background-color: rgba(255, 213, 0, 0.342);
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    z-index: -1;
-}
-
-#checkboxInput:checked + .bookmark::after {
-    animation: puff-out-center .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) both;
-    z-index: 1;
-}
-
-@keyframes puff-out-center {
-    0% {
-      transform: scale(1);
-      filter: blur(0px);
-      opacity: 1;
-    }   
-
-    100% {
-      transform: scale(9);
-      filter: blur(1px);
-      opacity: 0;
-    }
 }
 </style>
