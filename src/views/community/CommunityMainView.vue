@@ -17,7 +17,7 @@
                 <!-- 검색 -->
                 <div class="search-box">
                     <div class="container-input">
-                        <input type="text" placeholder="Search" name="text" class="input" autocomplete="off" v-model="name" @keyup.enter="searchCommunity()">
+                        <input type="text" placeholder="Search" name="text" class="input" autocomplete="off" v-model="searchname" @keyup.enter="searchCommunity()">
                         <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -38,30 +38,30 @@
             <div class="main-box">
                 <!-- 관심-random 카드 섹션 -->
                 <div class="random-card-wrapper">
-                    <div class="random-card-image-box">
+                    <router-link :to="`/community/detail/${newcommunity?.communityurl}`" class="random-card-image-box">
+                        <div class="random-comu-info">
+                            <h1 id="random-comu-title">{{popularcommunity?.title}}</h1>
+                            <p id="randon-comu-introduction">{{popularcommunity?.introduction}}</p>
+                        </div>
                         <img id="new-card-image" v-if="popularcommunity?.image != null" :src="popularcommunity?.imageurl">
-                        <img id="new-card-image" v-else src="@/assets/comu_image(1).jpg">
-                    </div>
-                    <!-- 여기에 random-comu의 title과 intro가 들어갑니다 -->
-                    <!-- 글씨가 정 위치에 있지만 이미지 뒤에 있는 상태예요.. JS에서 hover기능을 해주셨음합니다! -->
-                    <div class="random-comu-info">
-                        <h1 id="random-comu-title">랜덤 커뮤니티 추천{{popularcommunity?.title}}</h1>
-                        <p id="randon-comu-introduction">{{popularcommunity?.introduction}}</p>
-                    </div>
+                        <img id="new-card-image" v-else src="@/assets/comu_image(1).jpg">                        
+                    </router-link>                    
                     <ul class="random-subtitle">
                         <h4>⭐️ 이 커뮤니티의 인기 글 ⭐️</h4>
                     </ul>
                     <!-- random-comu의 인기 게시글 -->
                     <ul class="random-text-box">
                         <li id="" v-for="(feeds, index) in popularfeeds" :key=index>
-                            <a class="random-text-content">{{feeds.title}}</a>
-                            <div class="random-text-view-box">
-                                <img src="@/assets/view_look.png">
-                                <span class="random-text-view">{{feeds.view_count}}</span>
-                            </div>
+                            <router-link :to="`/community/detail/${popularcommunity?.communityurl}/feed/${feeds.id}`" style="width: 300px;">
+                                <a class="random-text-content">{{feeds.title}}</a>
+                                <div class="random-text-view-box">
+                                    <img src="@/assets/view_look.png">
+                                    <span class="random-text-view">{{feeds.view_count}}</span>
+                                </div>
+                            </router-link>
                         </li>
                     </ul>
-                    <div class="bookmark">
+                    <div class="bookmark" style="z-index: 999;">
                         <input type="checkbox" id="checkboxInput">
                         <label for="checkboxInput" class="bookmark">
                             <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512" class="svgIcon"><path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"></path></svg>
@@ -86,12 +86,12 @@
                 <h3>| 새로 생긴 커뮤니티 </h3>
             </div>
             <div class="main-box">
-                <div class="new-card-wrapper">
-                    <div v-if="newcommunity?.length == 0">
-                        <p>새로운 커뮤니티가 없습니다</p>
-                    </div>
+                <div v-if="newcommunity?.length == 0">
+                    <p>새로운 커뮤니티가 없습니다</p>
+                </div>
+                <div class="new-card-wrapper" v-else>
                     <!-- 새 커뮤니티 카드 박스 -->
-                    <router-link :to="`/community/detail/${newcommunity?.communityurl}`" class="new-card-box" v-else v-for="(newcommunity, index) in newcommunity" :key=index>
+                    <router-link :to="`/community/detail/${newcommunity?.communityurl}`" class="new-card-box" v-for="(newcommunity, index) in newcommunity" :key=index>
                         <div class="new-card-image">
                             <img id="new-card-image" v-if="newcommunity.image != null" :src="newcommunity.imageurl">
                             <img id="new-card-image" v-else src="@/assets/comu_image(1).jpg">
@@ -100,6 +100,7 @@
                         <!-- <span id="new-text-region" class="new-text-region">경기</span> -->
                         <span id="new-text-introduction" class="new-text-introduction">{{ newcommunity.introduction }}</span>
                     </router-link>
+
                 </div>
             </div>
         </div>
@@ -156,12 +157,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import  { fetchSearchCommunity } from "@/api/index.js";
 
 export default {
     data() {
         return {
-            name: "",
+            searchname: "",
         }
     },
     computed: {
@@ -194,17 +194,10 @@ export default {
     },
     created() {
         this.$store.dispatch("FETCH_COMMUNITY_LIST");
-    },
+    },    
     methods: {
-        async searchCommunity() {
-            try {
-                const response = await fetchSearchCommunity(this.name)
-                if (response.status === 200) {
-                    console.log(response)
-                }
-            } catch (error) {
-                console.log(error)
-            } 
+        searchCommunity() {
+            this.$router.push(`/community/search/${this.searchname}`)
         },
     },
 };
@@ -234,10 +227,6 @@ a {
     text-align: center;
     color: white;
     font-size: 25px;    
-}
-.head-title {
-    word-spacing:10px;
-    letter-spacing:6px;
 }
 .main-area {
     width: 1200;
@@ -310,38 +299,6 @@ a {
     transform: translateY(-3px);
 }
 /***** 북마크 버튼 css *****/
-.container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-  
-.container {
-    display: block;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-}
-  
-.container svg {
-    position: relative;
-    top: 0;
-    left: 0;
-    height: 45px;
-    width: 45px;
-    transition: all 0.3s;
-    fill: #666;
-}
-  
-.container svg:hover {
-    transform: scale(1.1);
-}
-  
-.container input:checked ~ svg {
-    fill: #ffc549;
-}
 
 
 /***** 커뮤니티 카테고리 area *****/
@@ -454,7 +411,7 @@ a {
 
 .random-card-wrapper {
     display: grid;
-    grid-template-columns: 45% 5% 2% 30% 20%;
+    grid-template-columns: 47% 3% 2% 30% 20%;
     grid-template-rows: 50px 110px 40px;
 }
 .random-card-image-box {
@@ -469,10 +426,21 @@ a {
     position: relative;
     grid-column: 1 / 3;
     grid-row: 1 / 5;
+
+    transition: transform 1s;
+    /*filter: brightness(70%);*/
+    transition: all ease 0.5s;
 }
 .random-card-image-box img {
     min-height: 200px;
     min-width: 200px;
+    /*filter: brightness(70%);*/
+    z-index: 2;
+}
+
+.random-card-image-box:hover img {
+    filter: brightness(70%);
+    z-index: 0;
 }
 /* .random-card-image-box:hover {
     transition: transform 1s;
@@ -483,9 +451,13 @@ a {
     opacity: 1;
     filter: brightness(100%);
     z-index: 1;
-} */
+}*/
 .random-comu-info {
-    opacity: 0;
+    position: absolute;
+    color: white;
+    z-index: 1;
+
+    /*opacity: 0;*/
     display: inline-block;
     justify-content: center;
     text-align: center;
@@ -559,6 +531,17 @@ a {
 
 /* 북마크 button css */
 
+/*.bookmark {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1%;
+    margin-right: auto;
+    grid-column: 2 / 3;
+    grid-row:1 / 2;
+}*/
 .bookmark {
     position: relative;
     cursor: pointer;
@@ -714,11 +697,6 @@ a {
     grid-column: 2 / 3;
 	grid-row: 1 / 2;
 }
-.new-text-region {
-    margin-top: 7px;
-    font-size: 0.8rem;
-    color: #909090;
-}
 .new-text-introduction {
     margin: 0px 8px 6px 15px;
     height: 100%;
@@ -792,15 +770,6 @@ a {
     font-size: 1.3rem;
     color: #707070;
 }
-.with-text-region {
-    margin-top: 10px;
-    padding-left: 10px;
-    align-items: center;
-    display: flex;
-    font-weight: 450;
-    font-size: 1.0rem;
-    color: #909090;
-}
 .with-card-subtext{
     display: flex;
     margin-top: 14px;
@@ -854,23 +823,9 @@ a {
     font-weight: 400;
     font-size: 0.9rem;
 }
-
-.bookmark {
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 1%;
-    margin-right: auto;
-    grid-column: 2 / 3;
-    grid-row:1 / 2;
-}
-
 #checkboxInput {
     display: none;
 }
-
 .svgIcon {
     height: 35px;
 }
@@ -924,7 +879,6 @@ a {
       filter: blur(0px);
       opacity: 1;
     }   
-
     100% {
       transform: scale(9);
       filter: blur(1px);

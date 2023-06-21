@@ -18,26 +18,20 @@
                             <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 384 512" class="svgIcon"><path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"></path></svg>
                         </label>
                     </div>
-                    <button class="Btn">
-                        <router-link :to="`/${communityurl}/write`">
-                            글 쓰기
+                    <router-link :to="`/${communityurl}/write`">
+                        <button class="Btn">글 쓰기
                             <svg class="Btn-svg" viewBox="0 0 512 512">
-                            <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path></svg>
-                        </router-link>
-                    </button>
+                                <path
+                                    d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z">
+                                </path>
+                            </svg>
+                        </button>
+                    </router-link>
                 </div>      
             </div>
         </section>
         <section class="category-section">
             <div class="search-category-area">
-                <div class="head-category-wrapper">
-                    <!-- 커뮤니티 카테고리 -->
-                    <ul class="head-category">
-                        <div class="category-item-box">
-                            여기에 카테고리 넣기
-                        </div>
-                    </ul>
-                </div>
                 <!-- 검색 -->
                 <div class="search-box">
                     <div class="container-input">
@@ -53,7 +47,10 @@
             <div class="main-area">
                 <div class="main-container">
                     <!-- category list 내용 -->
-                    <div class="main-content-wrapper" >
+                    <div class="main-content-wrapper" v-if="feeds?.length === 0">
+                        <h1 style="color:#707070; margin: 0 auto;">아직 게시글이 없습니다</h1>
+                    </div>
+                    <div class="main-content-wrapper" v-else>
                         <!-- 게시글 1개 -->
                         <div  v-for="feed,index in feeds" :key="index">
                             <router-link :to="`/community/detail/${communityurl}/feed/${feed.id}`">
@@ -114,10 +111,12 @@ export default {
     computed:{
         ...mapGetters(['fetchCommunityCategoryDetail']),
         community_name(){
-            return this.fetchCommunityCategoryDetail.community_title
+            //return this.fetchCommunityCategoryDetail.community_title
+            return this.$route.params.community_name
         },
         category_name(){
-            return this.fetchCommunityCategoryDetail.category_name
+            //return this.fetchCommunityCategoryDetail.category_name
+            return this.$route.params.category_name
         },
         introduction(){
             return this.fetchCommunityCategoryDetail.introduction
@@ -126,7 +125,12 @@ export default {
             return this.fetchCommunityCategoryDetail?.feed || [];
         },     
         feeds(){
-            return this.fetchCommunityCategoryDetail?.feed?.results || [];
+            if (Array.isArray(this.fetchCommunityCategoryDetail?.feed?.results) && this.fetchCommunityCategoryDetail?.feed?.results.length > 0) {
+                return [...this.fetchCommunityCategoryDetail?.feed?.results].sort((a, b) => new Date(b.is_notification) - new Date(a.is_notification));
+            } else {
+                return []; // 또는 다른 적절한 기본 값
+            }
+            //return this.fetchCommunityCategoryDetail?.feed?.results || [];
         },
         communityurl(){
             return this.$route.params.community_name
@@ -140,7 +144,8 @@ export default {
     methods:{
         async addBookmark() {
             try {
-                const response = await fetchCommunityBookmark(this.community)
+                const community_name = this.$route.params.community_name
+                const response = await fetchCommunityBookmark(community_name)
                 if (response.status == 200) {
                     alert(response.data.msg)
                 }
@@ -225,7 +230,8 @@ a{
     height: 80px;
     margin: 15px 30px;
 
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .head-introduction {
@@ -389,7 +395,6 @@ a{
     justify-content: space-between;
 
     grid-template-columns: 67% 33%;
-    background-color: #ffc549;
 }
 
 .head-category-wrapper {

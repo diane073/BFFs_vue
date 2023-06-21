@@ -80,10 +80,12 @@ export default {
 </script>
 
 <style scoped>
-.nav-bar {
+/* .nav-bar {
     height: 100%;
+} */
+h1{
+  margin: 0;
 }
-
 header > .inner{
     position: relative;
     width: 1100px;
