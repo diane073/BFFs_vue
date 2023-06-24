@@ -28,7 +28,7 @@
                     <ul class="together_play">
                         <li><h3><a href="">같이 놀기</a></h3></li>
                         <li><router-link to="/community/main">같이 놀기 페이지로 이동</router-link></li>
-                        <li><router-link to="/community/create">커뮤니티 생성 신청하기</router-link></li>         
+                        <li><router-link to="/community/create">커뮤니티 생성 신청하기</router-link></li>        
                     </ul>
                 </div>
 
@@ -163,88 +163,5 @@ header > #menu > .ct_1 > .alone_play > li > h4 > a {
     font-style: italic;
     font-weight: bold;
     color: #f0f0f0;
-}
-
-header > .inner{
-    position: relative;
-    width: auto;
-    height: 120px;
-    margin: 0 auto;
-    padding: 0px 30px;
-    background-color: #fff;
-    opacity: 0.6;
-
-}
-
-header > .inner > h1 > .logo {
-    height: 111px;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    position: absolute;
-}
-
-header > .inner > .sub-menu {
-    position: absolute;
-    top: 10;
-    right: 0;
-    display: flex;
-    margin-right: 40px;
-
-}
-
-header > .inner > .sub-menu > nav > h2 {
-    visibility: hidden;
-}
-
-header > .inner > .sub-menu > nav > .menu {
-    list-style-type: none;
-    display: flex;
-    padding-right: 48px;
-    align-items: center;
-    height: 70px;
-}
-
-header > .inner > .sub-menu > nav > .menu > li{
- position: relative;
-}
-
-header > .inner > .sub-menu > nav > .menu > li::before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 1px;
-    height: 12px;
-    background-color: black;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
-}
-
-header > .inner > .sub-menu > nav > .menu > li:first-child:before {
-    display: none;
-}
-
-header > .inner > .sub-menu > nav > .menu > li > a{
-    padding: 11px 12px;
-    color: #454545;
-}
-
-header > .inner > .sub-menu > nav > .menu > li > a:hover {
-    color: #9E2067;
-}
-
-header > .inner > .sub-menu > .hamburger {
-    position: relative;
-}
-
-header > .inner > .sub-menu > .hamburger > .material-icons {
-    height: 24px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-
-    right: 4px;
-    margin: auto;
 }
 </style>

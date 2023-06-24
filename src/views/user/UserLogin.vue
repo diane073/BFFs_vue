@@ -5,6 +5,7 @@
         </Transition>
         <div class="modal-overlay" v-if="modalopen" @click="modalopen=false"></div>
         <div class="back">
+            <img class="back-img" src="@/assets/7348427.jpg"/>
             <div class="login-wrap">
                 <div class="title">
                     <a href="">L O G I N</a>
@@ -40,9 +41,9 @@
                     <div class="form-icon">
                         <font-awesome-icon :icon="['fas', 'lock']" size="xs" style="color: #000000;" class="icon"/>
                     </div>
-                    <div class="form-input">
+                    <form class="form-input">
                         <input autocomplete="off" type="password" class="input" placeholder="Password" v-model="password" @keyup.enter="login">
-                    </div>
+                    </form>
                 </div>
                 <div class="form-item">
                     <button class="button" @click="login()">로그인</button>
@@ -68,7 +69,12 @@ export default {
             password:'',
         }
     },
-    
+    mounted(){
+        const social_error = this.$route.query.error
+        if(social_error){
+            alert('선택한 이메일은 다른 방법으로 회원가입을 하셨습니다. 다른 방법으로 로그인 해주세요.')
+        }
+    },
     methods: {
         passwordModal(){
             this.modalopen = true;
@@ -113,10 +119,22 @@ export default {
 <style scoped>
 .back{
     width:100%;
-    background-color: #9E2067;
+    /*background-color: #9E2067;*/
+    /*background-image: url('@/assets/8094129.jpg');*/
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+.back-img {
+    position: absolute;
+    z-index: -999;
+    max-width: 100%;
+    min-height: 800px;
+    filter: brightness(70%);
 }
 .login-wrap {
-    width: 500px;
+    width: 50%;
+    max-width: 600px;
     margin: 0 auto;
     margin-bottom: 100px;
     padding-top:100px;
