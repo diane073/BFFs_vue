@@ -68,7 +68,7 @@
                             <img :src="profile.profileimageurl.slice(28)" />
                         </div> -->
                         <div class="card-image">
-                            <img :src="profile.profileimageurl.slice(28)" v-if="profile.profileimage !== null" :style="{ opacity: profile.profileimage !== null ? 1 : 0 }" />
+                            <img :src="profile.profileimageurl.slice(33)" v-if="profile.profileimage !== null" :style="{ opacity: profile.profileimage !== null ? 1 : 0 }" />
                             <img src="@/assets/room_image(5).jpg" v-else />
                         </div>
                         <div class="image-box">
@@ -148,8 +148,12 @@ export default {
 
                 const formData = new FormData()
                 formData.append("nickname", nickname)
-                formData.append("region", region)
-                formData.append("introduction", introduction)
+                if (region) {
+                    formData.append("region", region)
+                }
+                if (introduction) {
+                    formData.append("introduction", introduction)
+                }
                 if (image) {
                     formData.append("profileimage", image)
                 }
@@ -162,6 +166,9 @@ export default {
                 }
             } catch (error) {
                 console.log(error)
+                if (error.response.status === 400) {
+                    alert("닉네임은 필수입니다!")
+                }
             }
         },
     },
