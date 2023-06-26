@@ -1549,7 +1549,7 @@ textarea{
 
 .update-textarea:hover, .update-textarea:focus, .input {
     outline: none;
-    border-color: #9E2070;
+    border-color: #9E2067;
 }
 
 /* comment 수정 내 버튼 - 수정완료 / 취소 */
@@ -1570,7 +1570,7 @@ textarea{
     text-transform: uppercase;
     transition: all 0.2s ease-in-out;
     position: relative;
-    background-color: #9E2070;
+    background-color: #9E2067;
     box-shadow: 0 2px 5px rgba(70, 70, 70, 0.5);
 }
 .update-submit-button:hover{
