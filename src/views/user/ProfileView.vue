@@ -13,7 +13,7 @@
                         <h3>북마크한 커뮤니티</h3>
                         <div class="main-container">
                             <div class="main-box">
-                                <div class="new-card-wrapper" v-if="bookmark?.length == 0 || true">
+                                <div class="new-card-wrapper" v-if="bookmark?.length == 0">
                                     <p>북마크한 커뮤니티가 없습니다</p>
                                 </div>
                                 <div class="new-card-wrapper" v-else>                                    
@@ -477,6 +477,10 @@ header > .profile > h3 {
 
 .mypage {
     width: 1200px;
+
+
+    top: 0;
+    bottom: 0;
     margin: auto;
     display: grid;
     place-items: start;
@@ -783,10 +787,9 @@ header > .profile > h3 {
     margin-top: 7px;
     font-size: 0.8rem;
     color: #909090;
-}
-.new-text-introduction {
+}.new-text-introduction {
     margin: 0px 8px 6px 15px;
-    height: 50%;
+    height: 100%;
     font-size: 0.8rem;
     color: #909090;
     text-indent: 7px;
@@ -799,15 +802,6 @@ header > .profile > h3 {
 }
 .community-text{
     height:50% !important ;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    word-break: keep-all;
-}
-.community-text{
-    overflow: hidden;
-    white-space: normal;
-    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -944,6 +938,7 @@ header > .profile > h3 {
     grid-column: 2 / 3;
     margin: 0 auto;
     width: 92%;
+    resize: none;
 
     background-color: #05060f0a;
     border-radius: .5rem;
