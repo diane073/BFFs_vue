@@ -125,9 +125,7 @@ export default {
 
             const response = await fetchMeetAICreate(this.text);
             if (response.status === 200) {
-                console.log(response.data)
                 this.firstloader = this.loadershow = false;
-                
                 this.conversation.push(response.data.ai);
                 }
             } catch (error) {
