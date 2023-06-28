@@ -132,24 +132,21 @@ export default {
 
         async createConversation() {
         try {
-                // 함수 작동하는 동안 버튼 비활성화
             if (this.isCreateConversation) return;
             this.isDisabled = true;
-            console.log("요청이 들어가고있는지?")
+            //console.log("요청 확인")
 
             if (!this.text || this.text==="") {
                 alert("하고싶은 말을 적어주세요:)");
                 return response.error
             }
 
-            // loader를 보이도록 함
             if (this.conversation.length === 0) {
                 this.firstloader = true;
             } else {
                 this.loadershow = true;
             }
 
-            // text response를 받아옴
             const response = await fetchMeetAICreate(this.text);
             if (response.status === 200) {
                 this.firstloader = this.loadershow = false;
