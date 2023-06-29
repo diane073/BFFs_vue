@@ -81,9 +81,7 @@ export default {
           if(error.response.status === 405) {
             alert('금지어가 포함되어 있습니다');
           }
-          if(error.response.status === 400) {
-            alert("이상한 일이 발생했습니다. o_O");
-          }
+          else {alert("이상한 일이 발생했습니다. o_O");}
         }
     },
     async handleImageAdded(file, Editor, cursorLocation, resetUploader) {

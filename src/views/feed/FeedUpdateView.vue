@@ -64,7 +64,10 @@ export default {
                 alert("제목 혹은 글 내용이 없습니다! 내용을 입력해주세요")
                 return(error.response)
               }
-              alert("이상한 일이 발생했습니다. o_O");
+              if(error.response.status === 405) {
+                alert('금지어가 포함되어 있습니다');
+              }
+              else {alert("이상한 일이 발생했습니다. o_O");}
           }
       },
       goBack() {
