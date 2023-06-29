@@ -286,14 +286,40 @@ img {
   display: flex;
   align-items: center;
   float: left;
-  padding: 20px;
-  font-weight: 700;
+  padding: 20px 0px;
+  --width: 340px;
+  --timing: 2s;
+  width: var(--width);
+  transition: all 0.2s;
 }
+.main-ai-box:hover {
+  animation: var(--timing) linear dance6123 infinite;
+  transform: scale(1.1) translateY(0px);
+}
+
+@keyframes dance6123 {
+  to {
+    background-position: var(--width);
+  }
+}
+
 .main-ai-box img {
   clear: both;
   margin-left: 10px;
   width: 40px;
   height: auto;
+}
+.main-ai-box a {
+  font-size: 1.8rem;
+  padding-left: 0px;
+}
+.main-ai-box a:hover {
+  border: none;
+  background-color: #fff2fa;
+  box-shadow: 0 0 5px rgb(250, 250, 250),
+            0 0 25px #ffedf8,
+            0 0 50px #ffe6f4,
+            0 0 100px #ffffff;
 }
 .play-button {
   margin-left: -100px;
@@ -301,7 +327,7 @@ img {
   height: auto;
 }
 .play-button:hover {
-  transform: scale(1.2);
+  transform: scale(1.25);
   cursor: pointer;
 }
 /***** 혼자 놀기 *****/
