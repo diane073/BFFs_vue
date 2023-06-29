@@ -177,11 +177,8 @@
 <script>
 import { mapGetters } from "vuex";
 //import {
-//    fetchGroupPurchaseDetail,
 //    fetchGroupPurchaseJoin,
 //    fetchGroupPurchaseCreate,
-//    fetchGroupPurchaseFeedDetail,
-//    fetchGroupPurchaseJoin,
     //fetchGroupPurchaseSelfEnd,
     //fetchGroupPurchaseCommentCreate,
     //fetchGroupPurchaseCommentEdit,
@@ -191,19 +188,34 @@ import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters({ data: "fetchPurchaseDetail" }),
+    ...mapGetters({ data: "fetchGroupPurchaseDetail" }),
+    none() {
+      console.log("요청")
+    },
     community() {
       return this.data?.community;
     },
+    communityurl() {
+      return this.data?.community?.communityurl;
+    },
     grouppurchase() {
       return this.data?.grouppurchase;
+    },
+    user() {
+      return this.data?.user;
+    },
+    bookmark() {
+      return this.community?.is_bookmarked;
+    },
+    hasAccessToken(){
+      return localStorage.getItem('access_token');
     },
   },
   watch: {
     $route(to) {
       const grouppurchase_id = to.params.grouppurchase_id;
       const community_name = to.params.community_name;
-      this.$store.dispatch("FETCH_PURCHASE_DETAIL", { community_name, grouppurchase_id });
+      this.$store.dispatch("FETCH_GROUPPURCHASE_DETAIL", { community_name, grouppurchase_id });
     }
   },
   data() {
@@ -215,7 +227,7 @@ export default {
   created() {
     const grouppurchase_id = this.$route.params.grouppurchase_id;
     const community_name = this.$route.params.community_name;
-    this.$store.dispatch("FETCH_PURCHASE_DETAIL", { community_name, grouppurchase_id});
+    this.$store.dispatch("FETCH_GROUPPURCHASE_DETAIL", { community_name, grouppurchase_id });
   },
   mounted() {
     const payload = localStorage.getItem("payload");
@@ -227,7 +239,7 @@ export default {
     }
   },
 //  methods: {
-//   async joinPurchase() {
+//   async joinGroupPurchase() {
 //      try {
 //        const response = await fetchGroupPurchaseJoin(
 //          this.grouppurchase.grouppurchase_id
