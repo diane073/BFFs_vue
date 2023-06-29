@@ -498,8 +498,8 @@ header > .profile > h3 {
   background-size: cover;
   background-repeat: no-repeat;*/
   
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 6px 6px 0 0;
   display: flex;
