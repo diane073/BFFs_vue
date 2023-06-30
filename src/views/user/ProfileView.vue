@@ -25,7 +25,6 @@
                                                 <img id="new-card-image" v-else src="@/assets/comu_image(1).jpg">
                                             </div>
                                             <span id="new-text-title" class="new-text-title community-text">{{ bookmark.title }}</span>
-                                            <!-- <span id="new-text-region" class="new-text-region">경기</span> -->
                                             <span id="new-text-introduction" class="new-text-introduction">{{ bookmark.introduction }}</span>
                                         </router-link>
                                     </div>
@@ -50,7 +49,6 @@
                                                 <img id="new-card-image" v-else src="@/assets/comu_image(1).jpg">
                                             </div>
                                             <span id="new-text-title" class="new-text-title">{{ community.title }}</span>
-                                            <!-- <span id="new-text-region" class="new-text-region">경기</span> -->
                                             <span id="new-text-introduction" class="new-text-introduction community-text">{{ community.introduction }}</span>
                                             <div class="button-box">
                                                 <router-link :to="`/community/manage/${community.communityurl}`" class="visit-button" v-if="userid===profile.id">
@@ -85,12 +83,11 @@
                                                 <div class="content-card">
                                                     <div class="feed-card-image">
                                                         <img id="feed-card-image" v-if="feed.image != null" :src="feed.imageurl">
-                                                        <img id="feed-card-image" v-else src="@/assets/comu_image(1).jpg">
+                                                        <img id="feed-card-image" v-else src="@/assets/feed_image(1).jpg">
                                                     </div>
                                                     <div class="title-box">
                                                         <span class="content-title">{{ feed.title }}</span>
                                                     </div>
-                                                    <p class="author">{{ feed.nickname }}</p>
                                                     <span id="new-text-introduction" class="new-text-introduction"><div v-html="feed.content"></div></span>
                                                     <p class="content-date">{{ feed.created_at.slice(0,10) }} | {{ feed.created_at.slice(12,19) }}</p>
                                                     <div class="view-box">
@@ -1365,7 +1362,7 @@ header > .profile > h3 {
     width: 350px;
     height: 50px;
     padding: 5px;
-    margin-bottom: 7px;
+    margin: 7px;
 
     background: rgb(255, 255, 255);
     border-radius: 0.4em;
