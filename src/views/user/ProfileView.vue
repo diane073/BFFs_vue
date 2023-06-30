@@ -123,16 +123,16 @@
                                     <div class="my-feeds-box">
                                         <div class="main-card-wrapper">
                                             <!-- 공구 게시글 1개 -->
-                                            <router-link :to="`/community/detail/:community_name/feed/${feed.id}`" v-for="(feed, index) in feed" :key=index>
+                                            <router-link :to="`/community/detail/${grouppurchase.community_url}/groupbuy/${grouppurchase.id}`" v-for="(grouppurchase, index) in grouppurchase" :key=index>
                                                 <div class="gp-content-card">
                                                     <div class="gp-title-box">
-                                                        <span class="content-title">{{ feed.title }}</span>
+                                                        <span class="content-title">{{ grouppurchase.title }}</span>
                                                     </div>
-                                                    <span id="gp-product-name" class="gp-product-name"><div v-html="feed.content"></div></span>
+                                                    <span id="gp-product-name" class="gp-product-name"><div v-html="grouppurchase.product_name"></div></span>
                                                     <li>시작일</li>
-                                                    <p class="gp-content-date">{{ feed.created_at.slice(0,10) }} | {{ feed.created_at.slice(12,19) }}</p>
+                                                    <p class="gp-content-date">{{ grouppurchase.open_at.slice(0,10) }} | {{ grouppurchase.open_at.slice(12,19) }}</p>
                                                     <li>마감일</li>
-                                                    <p class="gp-content-date">{{ feed.created_at.slice(0,10) }} | {{ feed.created_at.slice(12,19) }}</p>
+                                                    <p class="gp-content-date">{{ grouppurchase.close_at.slice(0,10) }} | {{ grouppurchase.close_at.slice(12,19) }}</p>
                                                 </div>
                                             </router-link>
                                         </div>
@@ -269,6 +269,9 @@ export default {
         guestbook_length() {
             return this.guestbook?.length;
         },
+        grouppurchase() {
+            return this.data.joined_grouppurchase;
+        }
     },
     data() {
         return {
