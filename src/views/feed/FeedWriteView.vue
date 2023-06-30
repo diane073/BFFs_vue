@@ -12,14 +12,15 @@
         </div>
 
         <div v-if="editoropen" @close="editoropen=false">
-          <div class = "title">
-              <input type="text" id="title" v-model="title" placeholder="제목을 입력해주세요">
-          </div>
-          <vue-editor v-model="content" :useCustomImageHandler="true" @image-added="handleImageAdded"></vue-editor>
-          <div class="submit-box">
-            <button class="create-button" @click="writeFeed">생성하기</button>
-            <button class="quit-button" @click="goBack">취소하기</button>
-          </div>
+            <div class = "title">
+                <input type="text" id="title" v-model="title" placeholder="제목을 입력해주세요">
+            </div>
+            <vue-editor v-model="content" :useCustomImageHandler="true" @image-added="handleImageAdded"></vue-editor>
+            <div class="submit-box">
+              <button class="create-button" @click="writeFeed">생성하기</button>
+              <button class="quit-button" @click="goBack">취소하기</button>
+              <vue-snotify></vue-snotify>
+            </div>
         </div>
         
         <purchase-write v-if="purchaseopen" @close="purchaseopen=false"></purchase-write>
@@ -30,6 +31,7 @@
 import { VueEditor } from "vue2-editor";
 import { mapGetters } from "vuex";
 import PurchaseWrite from "@/components/PurchaseWrite.vue"
+import bus from "@/utils/bus.js";
 
 export default {
 	components: {
@@ -42,6 +44,7 @@ export default {
 	created() {
 		const community_name = this.$route.params.community_name;
 		this.$store.dispatch("FETCH_COMMUNITY_CATEGORY_DETAIL", community_name);
+
 	},
 	data() {
 		return {
@@ -62,26 +65,18 @@ export default {
             title: this.title,
               content: this.content,
               categoryId: this.categoryId,
-          });
-          if(!this.title || this.title ==="" || !this.content || this.content===" ") {
-            alert("제목 혹은 글 내용이 없습니다! 내용을 입력해주세요")
-            return(response.error)
-          }
-          if(!this.categoryId) {
-            alert("카테고리를 선택해주세요")
-            return(response.error)
-          }
-          
-          if(response.status === 201){
-            alert(response.data.message)
-            this.$router.push({name: "community-detail", params: {name: this.$route.params.community_name}});
-          }
+            });
+            if(response && response.status === 201){
+              this.snotify('success',response.data.message)
+              this.$router.push({name: "community-detail", params: {name: this.$route.params.community_name}});
+            }
         }catch(error){
-          // console.log(error);
-          if(error.response.status === 405) {
-            alert('금지어가 포함되어 있습니다');
+          if(error.response.status == 400){
+            this.snotify('error',error.response.data.message)
           }
-          else {alert("이상한 일이 발생했습니다. o_O");}
+          else{
+            this.snotify('error','카테고리를 입력해주세요')
+          }
         }
     },
     async handleImageAdded(file, Editor, cursorLocation, resetUploader) {
@@ -95,7 +90,6 @@ export default {
         }
     },
     changeIndex(index) {
-      console.log(index)
       if (index===2) {
         this.purchaseopen = true;
         this.editoropen = false;
@@ -104,6 +98,12 @@ export default {
         this.editoropen = true;
       }
     },
+    snotify(type,message){
+        bus.$emit('showSnackbar',{
+            type,
+            message
+        });
+    }
   },
 }
 
