@@ -263,8 +263,8 @@ export default {
             bus.$emit('showSnackbar',{
                 type,
                 message
-            });
-        }
+            }
+        );
     }
 }
 </script>
