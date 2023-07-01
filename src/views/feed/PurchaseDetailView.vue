@@ -38,202 +38,240 @@
             </div>
           </div>
         </section>
-        <section class="category-section">
-          <div class="search-category-area">
-            <div class="head-category-wrapper">
-              <!-- 커뮤니티 카테고리 -->
-              <ul class="head-category">
-                <div class="category-item-box">
-                  <h2 style="color: #909090;">
-                    카테고리명 : {{ feed?.category_name }}
-                  </h2>
+        <section class="body-section">
+          <section class="category-section">
+            <div class="search-category-area">
+              <div class="head-category-wrapper">
+                <!-- 커뮤니티 카테고리 -->
+                <ul class="head-category">
+                  <div class="category-item-box">
+                    <h2 style="color: #909090;">
+                      카테고리명 : {{ feed?.category_name }}
+                    </h2>
+                  </div>
+                </ul>
+              </div>
+              <!-- 검색 -->
+              <div class="search-box">
+                <div class="container-input">
+                  <input autocomplete="off" type="text" placeholder=" Feed Search" name="text" class="input" v-model="searchname" @keyup.enter="searchFeed()"/>
+                  <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z"
+                      fill-rule="evenodd"
+                    ></path>
+                  </svg>
                 </div>
-              </ul>
-            </div>
-            <!-- 검색 -->
-            <div class="search-box">
-              <div class="container-input">
-                <input autocomplete="off" type="text" placeholder=" Feed Search" name="text" class="input" v-model="searchname" @keyup.enter="searchFeed()"/>
-                <svg fill="#000000" width="20px" height="20px" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z"
-                    fill-rule="evenodd"
-                  ></path>
-                </svg>
               </div>
             </div>
-          </div>
-        </section>
-        <section class="main-section">
-          <div class="main-area">
-            <div class="main-container">
-              <!-- 게시 글 내용 전체 -->
-              <div class="main-content-wrapper" v-if="feed">
-                <span class="content-status" style="color:#9E2067;">[{{ feed.grouppurchase_status }}]</span>
-                 <h2 class="main-title">{{ feed.title }}</h2>
-                 <div class="content-button-box">
-                     <div class="content-view-box">
-                         <img src="@/assets/view_look.png">
-                         <span class="text-view-content">{{ feed.view_count }}</span> 
-                     </div>
-                     <!-- 글 쓴 사용자만 // 종료시킬때 경고창으로 한 번 더 확인하기 -->
-                     <button v-if="feed.user === this.userid" class="ended-button" @click="endPurchase()">{{ feed.is_ended ? '종료된 공구' : '공구 종료하기' }}</button> 
-                 </div>
-                 <div class="content-info-box">
-                     <!-- 작성자 프로필로 이동 -->
-                     <a>{{ feed.nickname }}</a>
-                     <li>{{ feed?.created_at?.slice(0, 10) + " " + feed?.created_at?.slice(11, 19) }}</li>
-                 </div>
-                 <div class="main-content">
-                     <div v-html="feed.content"></div>
-                     <div class="purchase-form-box">
-                         <div class="purchase-form">
-                             <li class="product-name-part">이름</li>
-                             <li class="product-number-part">인당 수량</li>
-                             <li class="link-part">상품 link</li>
-                             <li class="open-at-part">모집 시작</li>
-                             <li class="close-at-part">모집 끝</li>
-                             <li class="person-limit-part">모집 인원 (명)</li>
-                             <li class="location-part">만날 위치</li>
-                             <li class="meeting-at-part">만날 시간</li>
-                             <li class="end-option-part">공구 모집 실패 시</li>
-
-                             <li class="product-name">{{ feed?.product_name }}</li>
-                             <li class="product-number">{{ feed?.product_number }}</li>
-                             <li class="link"><a :href="feed.link">{{ feed?.link }}</a></li>
-                             <li class="open-at">{{ feed.open_at.slice(0, 10) }} {{ feed.open_at.slice(11, 20) }}</li>
-                             <li class="close-at">{{ feed.close_at.slice(0, 10) }} {{ feed.close_at.slice(11, 20) }}</li>
-                             <li class="person-limit">{{ feed.joined_user_count }} / {{ feed.person_limit }} 명</li>
-                             <li class="location">{{ feed.location }}</li>
-                             <li class="meeting-at">{{ feed.meeting_at.slice(0, 10) }} {{ feed.meeting_at.slice(11, 20) }}</li>
-                             <li class="end-option">{{ feed.end_choice }}</li>
-                             <!-- 지도 api 넣을 예정 -->
-                             <div id="map" class="mapping"></div>
-                             <div class="parti-button-box">
-                                 <button class="parti-button" @click="submitOpen()">참여할래!</button>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="purchase-submit-box" v-if="submitopen">
-                         <li class="submit-part">
-                         수량 입력
-                         </li>
-                         <li class="submit-help-text">
-                         ⚠ 1 이상 입력 가능합니다!
-                         </li>
-                         <input type="number" v-model="submitnumber" min="1" class="purchase-submit-input">
-                         <button class="submit-button" @click="grouppurchaseJoin()">신 청</button>
-                     </div>
-                 </div>
-                 <div class="function-box">
-                   <div class="move-box">
-                    <router-link :to="`/community/${communityurl}/category/${feed.category_url}`" class="move-button">목록으로</router-link>
-                   </div>
-                   <div class="like-box">
-                    <router-link v-if="feed.user === this.userid" class="content-edit-button" :to="`/community/update/${communityurl}/purchase/${feed.id}`" >글 수정</router-link>
-                    <!-- 본인 -->
-                    <a v-if="feed.user === this.userid" class="content-delete-button" @click="deleteFeed()" >글 삭제</a>
-                   </div>
-                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="sub-area">
-            <div class="main-container">
-              <div class="sub-input-wrapper">
-                <div class="sub-text-info">
-                  <p>댓글 |</p>
-                  <p v-if="comment &&comment == '아직 댓글이 없습니다'" style="margin-left: 3px;">0</p>
-                  <p v-else style="margin-left: 3px;">{{ feed.comment_count }}</p>
-                </div>
-                <textarea
-                  v-model="inputComment"
-                  autocomplete="off"
-                  class="input-sub-text"
-                  placeholder="여기에 댓글을 입력하세요"
-                  @keyup.enter="createComment()"
-                ></textarea>
-                <button class="input-button" @click="createComment()">
-                  입 력
-                </button>
-              </div>
-              <div class="sub-content-wrapper">
-                <!-- 댓글 1개 묶음 -->
-                <div v-if="comment == '아직 댓글이 없습니다'">
-                  <p>{{ comment }}</p>
-                </div>
-                <div v-else>
-                  <div class="comment-box"  v-for="(comment, index) in comment" :key="index">
-                    <!-- comment 내용 -->
-                    <div>
-                      <div class="comment-card">
-                        <!-- 댓글 수정용 div. display:none; 토글 필요 -->
-                        <div class="comment-update-box" v-if="comment.commenteditshow">
-                          <div class="comment-update-div">
-                            <p>댓글 수정</p>
-                            <textarea v-model="inputUpdateComment" class="update-textarea" @keyup.enter="editComment(comment.id)"></textarea>
-                            <button type="submit" class="update-submit-button" @click="editComment(comment.id)">수정 완료</button>
-                            <button class="update-quit-button" @click="commenteditshow(comment)">취소</button>
-                          </div>
-                        </div>
-  
-                        <li class="comment-author">
-                          <router-link :to="`/profile/${comment?.user_id}`">{{
-                            comment?.nickname
-                          }}</router-link>
-                        </li>
-                        <li class="comment-date">
-                          작성일 {{ comment?.created_at?.slice(5, 10) }} 수정일 {{ comment?.updated_at?.slice(5, 10) }}
-                        </li>
-                        <li class="comment-text">
-                          {{ comment.text }}
-                        </li>
-                        <div
-                          class="comment-func-box"
-                          v-if="userid === comment.user_id"
-                        >
-                          <button
-                            class="comment-edit-btn"
-                            @click="commenteditshow(comment)"
-                          >
-                            <svg
-                              class="edit-icon"
-                              viewBox="0 0 512 512"
-                              height="17.5"
-                              width="15"
-                            >
-                              <path
-                                d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"
-                              ></path>
-                            </svg>
-                          </button>
-                          <button
-                            class="comment-delete-btn"
-                            @click="deleteComment(comment)"
-                          >
-                            <svg
-                              viewBox="0 0 15 17.5"
-                              height="17.5"
-                              width="15"
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="delete-icon"
-                            >
-                              <path
-                                transform="translate(-2.5 -1.25)"
-                                d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z"
-                                id="Fill"
-                              ></path>
-                            </svg>
-                          </button>
-                        </div>
+          </section>
+          <section class="main-section">
+            <div class="main-area">
+              <div class="main-container">
+                <!-- 게시 글 내용 전체 -->
+                <div class="main-content-wrapper" v-if="feed">
+                  <span class="content-status" style="color:#9E2067;">[{{ feed.grouppurchase_status }}]</span>
+                  <h2 class="main-title">{{ feed.title }}</h2>
+                  <div class="content-button-box">
+                      <div class="content-view-box">
+                          <img src="@/assets/view_look.png">
+                          <span class="text-view-content">{{ feed.view_count }}</span> 
                       </div>
-                    </div>
+                      <!-- 글 쓴 사용자만 // 종료시킬때 경고창으로 한 번 더 확인하기 -->
+                      <button v-if="feed.user === this.userid" class="ended-button" @click="endPurchase()">{{ feed.is_ended ? '종료된 공구' : '공구 종료하기' }}</button> 
+                  </div>
+                  <div class="content-info-box">
+                      <!-- 작성자 프로필로 이동 -->
+                      <a>{{ feed.nickname }}</a>
+                      <li>{{ feed?.created_at?.slice(0, 10) + " " + feed?.created_at?.slice(11, 19) }}</li>
+                  </div>
+                  <div class="main-content">
+                      <div v-html="feed.content"></div>
+                      <div class="purchase-form-box">
+                          <div class="purchase-form">
+                              <li class="product-name-part">이름</li>
+                              <li class="product-number-part">구매 수량</li>
+                              <li class="link-part">상품 link</li>
+                              <li class="open-at-part">모집 시작</li>
+                              <li class="close-at-part">모집 끝</li>
+                              <li class="person-limit-part">모집 인원 (명)</li>
+                              <li class="location-part">만날 위치</li>
+                              <li class="meeting-at-part">만날 시간</li>
+                              <li class="end-option-part">공구 모집 실패 시</li>
 
+                              <li class="product-name">{{ feed?.product_name }}</li>
+                              <li class="product-number">{{ feed?.purchase_quantity }} / {{ feed?.product_number }} 개</li>
+                              <li class="link"><a :href="feed.link">{{ feed?.link }}</a></li>
+                              <li class="open-at">{{ feed.open_at.slice(0, 10) }} {{ feed.open_at.slice(11, 16) }}</li>
+                              <li class="close-at">{{ feed.close_at.slice(0, 10) }} {{ feed.close_at.slice(11, 16) }}</li>
+                              <li class="person-limit">{{ feed.joined_user_count }} / {{ feed.person_limit }} 명</li>
+                              <li class="location">{{ feed.location }}</li>
+                              <li class="meeting-at">{{ feed.meeting_at.slice(0, 10) }} {{ feed.meeting_at.slice(11, 16) }}</li>
+                              <li class="end-option">{{ feed.end_choice }}</li>
+                              <!-- 지도 api 넣을 예정 -->
+                              <div id="map" class="mapping"></div>
+                              <div class="parti-button-box">
+                                  <button class="party-button" @click="submitOpen()">
+                                      <p>Subscribe</p>
+                                      <svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linejoin="round" stroke-linecap="round"></path>
+                                      </svg>
+                                  </button>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="purchase-submit-box" v-if="submitopen">
+                          <li class="submit-part" v-if="joined_users_id.includes(userid)">수량 수정</li>
+                          <li class="submit-part" v-else>신청 수량</li>
+                          <li class="submit-help-text">⚠ 1 이상 입력 가능</li>
+                          <input type="number" v-model="submitnumber" min="1" class="purchase-submit-input">
+                          <button class="submit-button" @click="grouppurchaseJoin()" v-if="joined_users_id.includes(userid)">수 정</button>
+                          <button class="submit-button" @click="grouppurchaseJoin()" v-else>신 청</button>
+                      </div>
+                  </div>
+
+                  <div class="main">
+                      <ul class="top-bar">
+                          <li>
+                              <button class="btn minimize" @click="userlistshow=true">
+                                  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M.3 89.5C.1 91.6 0 93.8 0 96V224 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64V224 96c0-35.3-28.7-64-64-64H64c-2.2 0-4.4 .1-6.5 .3c-9.2 .9-17.8 3.8-25.5 8.2C21.8 46.5 13.4 55.1 7.7 65.5c-3.9 7.3-6.5 15.4-7.4 24zM48 224H464l0 192c0 8.8-7.2 16-16 16L64 432c-8.8 0-16-7.2-16-16l0-192z"></path></svg>
+                              </button>
+                          </li>
+                          <li>
+                              <button class="btn close" @click="userlistshow=false">
+                                  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"></path></svg>
+                              </button>
+                          </li>
+                      </ul>
+                      <div class="user-list" v-if="userlistshow">
+                          <div class="currentplaying">
+                              <p class="heading">공구 참여중인 유저 목록</p>
+                          </div>
+                          <div class="songs">
+                              <router-link :to="`/profile/${user.user}`" class="loader" v-for="user,index in joined_users" :key='index'>
+                                  <div class="song">
+                                      <div class="song-name">
+                                          <p class="name">{{ user.nickname }} ({{ user.region }})</p>
+                                          <p class="name"><font-awesome-icon :icon="['fas', 'cart-shopping']" /> {{ user.product_quantity }}</p>
+                                      </div>
+                                      <p class="artist">참여 날짜 : {{ user.created_at.slice(0, 10) }}</p>
+                                  </div>
+                                  <div class="albumcover"><img :src="user.profileimage.indexOf('profile_img') ? user.profileimage: 'https://api.makebestie.com/media/'+user.profileimage" alt=""></div>
+                              </router-link>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="function-box">
+                    <div class="move-box">
+                      <router-link :to="`/community/${communityurl}/category/${feed.category_url}`" class="move-button">목록으로</router-link>
+                    </div>
+                    <div class="like-box">
+                      <router-link v-if="feed.user === this.userid" class="content-edit-button" :to="`/community/update/${communityurl}/purchase/${feed.id}`" >글 수정</router-link>
+                      <!-- 본인 -->
+                      <a v-if="feed.user === this.userid" class="content-delete-button" @click="deleteFeed()" >글 삭제</a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+            <div class="sub-area">
+              <div class="main-container">
+                <div class="sub-input-wrapper">
+                  <div class="sub-text-info">
+                    <p>댓글 |</p>
+                    <p v-if="comment &&comment == '아직 댓글이 없습니다'" style="margin-left: 3px;">0</p>
+                    <p v-else style="margin-left: 3px;">{{ feed.comment_count }}</p>
+                  </div>
+                  <textarea
+                    v-model="inputComment"
+                    autocomplete="off"
+                    class="input-sub-text"
+                    placeholder="여기에 댓글을 입력하세요"
+                    @keyup.enter="createComment()"
+                  ></textarea>
+                  <button class="input-button" @click="createComment()">
+                    입 력
+                  </button>
+                </div>
+                <div class="sub-content-wrapper">
+                  <!-- 댓글 1개 묶음 -->
+                  <div v-if="comment == '아직 댓글이 없습니다'">
+                    <p>{{ comment }}</p>
+                  </div>
+                  <div v-else>
+                    <div class="comment-box"  v-for="(comment, index) in comment" :key="index">
+                      <!-- comment 내용 -->
+                      <div>
+                        <div class="comment-card">
+                          <!-- 댓글 수정용 div. display:none; 토글 필요 -->
+                          <div class="comment-update-box" v-if="comment.commenteditshow">
+                            <div class="comment-update-div">
+                              <p>댓글 수정</p>
+                              <textarea v-model="inputUpdateComment" class="update-textarea" @keyup.enter="editComment(comment.id)"></textarea>
+                              <button type="submit" class="update-submit-button" @click="editComment(comment.id)">수정 완료</button>
+                              <button class="update-quit-button" @click="commenteditshow(comment)">취소</button>
+                            </div>
+                          </div>
+    
+                          <li class="comment-author">
+                            <router-link :to="`/profile/${comment?.user_id}`">{{
+                              comment?.nickname
+                            }}</router-link>
+                          </li>
+                          <li class="comment-date">
+                            작성일 {{ comment?.created_at?.slice(5, 10) }} 수정일 {{ comment?.updated_at?.slice(5, 10) }}
+                          </li>
+                          <li class="comment-text">
+                            {{ comment.text }}
+                          </li>
+                          <div
+                            class="comment-func-box"
+                            v-if="userid === comment.user_id"
+                          >
+                            <button
+                              class="comment-edit-btn"
+                              @click="commenteditshow(comment)"
+                            >
+                              <svg
+                                class="edit-icon"
+                                viewBox="0 0 512 512"
+                                height="17.5"
+                                width="15"
+                              >
+                                <path
+                                  d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"
+                                ></path>
+                              </svg>
+                            </button>
+                            <button
+                              class="comment-delete-btn"
+                              @click="deleteComment(comment)"
+                            >
+                              <svg
+                                viewBox="0 0 15 17.5"
+                                height="17.5"
+                                width="15"
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="delete-icon"
+                              >
+                                <path
+                                  transform="translate(-2.5 -1.25)"
+                                  d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z"
+                                  id="Fill"
+                                ></path>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </section>
       </main>
     </div>
@@ -295,6 +333,12 @@ export default {
             }
             return [];
         },
+        joined_users(){
+            return this.data?.grouppurchase?.joined_users;
+        },
+        joined_users_id(){
+            return this.data?.grouppurchase?.joined_users.map(user => user.user);
+        },
     },
     watch: {
         $route(to) {
@@ -312,6 +356,7 @@ export default {
             inputComment: "",
             inputUpdateComment: "",
             searchname: '',
+            userlistshow: true,
         };
     },
     created() {
@@ -383,12 +428,19 @@ export default {
             try {
             const grouppurchase_id = this.$route.params.grouppurchase_id;
             const response = await fetchGroupPurchaseJoin(grouppurchase_id, this.submitnumber);
-            if (response.status === 201) {
-                this.snotify('success',response.data.message);
-                this.submitopen = false;
-            }
+                if (response.status === 201 || response.status === 202) {
+                    this.snotify('success',response.data.message);
+                    this.submitopen = false;
+                    const grouppurchase_id = this.$route.params.grouppurchase_id;
+                    const community_name = this.$route.params.community_name;
+                    this.$store.dispatch("FETCH_GROUPPURCHASE_DETAIL", { community_name, grouppurchase_id });
+                }
             } catch (error) {
-                this.snotify('error',error.response.data.message);
+                if (error.response.status === 401) {
+                    this.snotify('warning',"로그인을 해주세요");
+                } else {
+                    this.snotify('error',error.response.data.message);
+                }
             }
         },
         async createComment() {
@@ -462,18 +514,307 @@ export default {
             }
         },
 };
-  </script>
-  
-  <style scoped>
-  body {
-      margin: 0;
-      padding: 0;
+</script>
+
+<style scoped>
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+.main-content {
+    padding: 30px 10px 50px 10px;
+    grid-column: 1 / 4;
+    grid-row: 3 / 4;
+}
+.body-section{
+  max-width:1800px;
+  margin:0 auto;
+}
+.main {
+  --clr: #FDFFFC;
+  --clr-text: #1C1D21;
+  --clr1: #9E2067;
+  background-color: var(--clr);
+  padding: 1em;
+  padding-bottom: 1.1em;
+  border-radius: 15px;
+  margin: 1em;
+  flex-direction: column;
+  outline: 2px solid var(--clr);
+  outline-offset: 3px;
+
+  display: flex;
+  grid-column: 3 / 4;
+  grid-row: 3 / 4;
+  min-width: 350px;
+  margin-top: 50px;
+}
+
+/* new start */
+.top-bar {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  gap: .5rem;
+  list-style: none;
+}
+
+.btn {
+  fill: var(--clr);
+  border: none;
+  width: 2rem;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+}
+
+.close {
+  background-color: #dddddd;
+}
+.close:hover {
+  background-color: #a40303;
+}
+
+.minimize {
+  background-color: #dddddd;
+}
+.minimize:hover {
+  background-color: rgb(34, 64, 115);
+}
+
+.songs {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  height: 210px;
+  overflow-y: auto;
+}
+.songs::-webkit-scrollbar {
+  width: 5px;
+}
+.songs::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.songs::-webkit-scrollbar-thumb {
+  background: #888;
+}
+/* new end */
+
+.loader {
+  display: flex;
+  flex-direction: row;
+  height: 4em;
+  padding-inline: 1em;
+  transform: rotate(180deg);
+  justify-content: right;
+  border-radius: 10px;
+  transition: .4s ease-in-out;
+}
+
+.song > * {
+  transition: .4s ease-in-out;
+}
+
+.loader:hover {
+  cursor: pointer;
+  background-color: var(--clr1);
+  --clr-text: #FDFFFC;
+}
+
+.currentplaying {
+    display: flex;
+  align-self: center;
+  width: 100%;
+  border-radius: .5rem;
+}
+
+.spotify {
+  width: 50px;
+  height: 50px;
+  margin-right: 0.6em;
+}
+
+.heading {
+  color: #1C1D21;
+  font-size: 1.1em;
+  font-weight: bold;
+  align-self: center;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.loading {
+  display: flex;
+  margin-top: 1em;
+  margin-left: 0.3em;
+}
+
+.load {
+  width: 2px;
+  height: 33px;
+  background-color: limegreen;
+  animation: 1s move6 infinite;
+  border-radius: 5px;
+  margin: 0.1em;
+}
+
+.load:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.load:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.load:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.play {
+  position: relative;
+  left: 0.35em;
+  height: 1.6em;
+  width: 1.6em;
+  clip-path: polygon(50% 50%, 100% 50%, 75% 6.6%);
+  background-color: var(--clr-text);
+  transform: rotate(-90deg);
+  align-self: center;
+  margin-top: 0.7em;
+  justify-self: center;
+  transition: .4s ease-in-out;
+}
+
+.albumcover {
+  position: relative;
+  margin-right: 1em;
+  height: 40px;
+  width: 40px;
+  background-color: rgb(233, 232, 232);
+  align-self: center;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.albumcover img{
+    width:100%;
+    rotate:180deg;
+}
+.song {
+  position: relative;
+  transform: rotate(180deg);
+  margin-right: 1em;
+  color: var(--clr-text);
+  align-self: center;
+  width: 70%;
+}
+.song-name {
+    display: flex; 
+    justify-content: space-between;
+}
+.artist {
+  margin-top:-5px;
+  font-size: 0.6em;
+  color: var(--clr-text);
+}
+
+@keyframes move6 {
+  0% {
+    height: 0.2em;
   }
 
-  a {
-    text-decoration: none;
+  25% {
+    height: 0.7em;
   }
-  
+
+  50% {
+    height: 1.5em;
+  }
+
+  100% {
+    height: 0.2em;
+  }
+}
+
+
+/* 참여 버튼 */
+.party-button {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.party-button {
+  --primary-color: #111;
+  --hovered-color: #9E2067;
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  font-size: 20px;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.party-button p {
+  margin: 0;
+  position: relative;
+  font-size: 1.1em;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.party-button::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  background: var(--hovered-color);
+  height: 2px;
+  transition: 0.3s ease-out;
+}
+
+.party-button p::before {
+  position: absolute;
+/*   box-sizing: border-box; */
+  content: "Subscribe";
+  width: 0%;
+  inset: 0;
+  color: var(--hovered-color);
+  overflow: hidden;
+  transition: 0.3s ease-out;
+}
+
+.party-button:hover::after {
+  width: 100%;
+}
+
+.party-button:hover p::before {
+  width: 100%;
+}
+
+.party-button:hover svg {
+  transform: translateX(4px);
+  color: var(--hovered-color)
+}
+
+.party-button svg {
+  color: var(--primary-color);
+  transition: 0.2s;
+  position: relative;
+  width: 15px;
+  transition-delay: 0.2s;
+}
+
   .head-area {
       width: 100%;
       height: 150px;
@@ -831,7 +1172,7 @@ export default {
   
   .main-content {
       padding: 30px 10px 50px 10px;
-      grid-column: 1 / 4;
+      grid-column: 2 / 4;
       grid-row: 3 / 4;
   }
   
@@ -1030,7 +1371,7 @@ export default {
   }
   
   .mapping {
-      grid-column: 4 / 6;
+      /*grid-column: 4 / 6;*/
       grid-row: 5 / 7;
       margin-left:auto;
       margin-right: 20px;
@@ -1137,7 +1478,6 @@ export default {
   
   .purchase-submit-input:hover, .purchase-submit-input:focus, .input {
       outline: none;
-      border-color: #9E2067;
   }
   
   .input-group:hover, .input:focus {
@@ -1371,13 +1711,7 @@ export default {
   
   .input-sub-text:hover, .input-sub-text:focus, .input {
       outline: none;
-      border-color: #9E2067;
   }
-  
-  .input-group:hover, .input:focus {
-      color: #9E2067;
-  }
-  
   
   /* 입력 button area */
   
@@ -1608,7 +1942,6 @@ export default {
 
 .update-textarea:hover, .update-textarea:focus, .input {
     outline: none;
-    border-color: #9E2067;
 }
 
 /* comment 수정 내 버튼 - 수정완료 / 취소 */
