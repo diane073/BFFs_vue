@@ -102,7 +102,6 @@ function fetchProfile(user_id){
 
 // 프로필, 내 전체 커뮤니티 조회
 function fetchProfileComuInfo() {
-    console.log("요청")
     const token = access_token()
     if (token) {
         return axios.get(`${config.baseUrl}/user/mycommunity/`,{
