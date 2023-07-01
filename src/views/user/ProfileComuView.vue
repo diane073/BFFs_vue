@@ -7,18 +7,15 @@
                     <h3>내 커뮤니티 모아보기</h3>
                     <div class="main-box">
                         <div class="new-card-wrapper" v-if="community?.length == 0">
-                            <p>내가 관리자인 커뮤니티가 없습니다.</p>
-                            <p>새로운 커뮤니티를 만들어보세요!</p>
-                            <div class="visit-button">
-                                <span>새 커뮤니티 만들기</span>
-                                <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
-                                    <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path>
-                                </svg>
+                            <div class="make-new-box">
+                                <p>내가 관리자인 커뮤니티가 없습니다.</p>
+                                <li>새로운 커뮤니티를 만들어보세요!</li>
+                                <div class="create-button"><span>새 커뮤니티 만들기</span></div>
                             </div>
                         </div>
                         <div class="new-card-wrapper-2" v-else> 
                             <!-- 새 커뮤니티 카드 박스 -->
-                            <router-link :to="`/community/detail/:community_name/feed/${feed.id}`" class="new-card-box" v-for="(feed, index) in feed" :key=index>
+                            <router-link :to="`/community/detail/${community.communityurl}`" class="new-card-box" v-for="(community, index) in community" :key=index>
                                 <div class="new-card-image">
                                     <img id="new-card-image" v-if="community.image != null" :src="community.imageurl">
                                     <img id="new-card-image" src="@/assets/comu_image(1).jpg">
@@ -26,7 +23,7 @@
                                 <span id="new-text-title" class="new-text-title">{{ community.title }}</span>
                                 <span id="new-text-introduction" class="new-text-introduction">{{ community.introduction }}</span>
                                 <li class="recent-act">최근 활동</li>
-                                <li class="recent-act-text"> {{ community.recent_act}}</li>
+                                <li class="recent-act-text"> {{ community.recent_act }}</li>
                                 <div class="bookmark-box">
                                     <img src="@/assets/bookmark.png"/>
                                     <li class="content-text">{{ community.bookmark_count }}</li>
@@ -35,13 +32,13 @@
                                     <img src="@/assets/feed-all.png">
                                     <li class="content-text">{{ community.feed_count }}</li>
                                 </div>
-                                <div class="visit-button">
+                                <router-link :to="`/community/manage/${community.communityurl}`" class="visit-button">                                    
                                     <span>관리</span>
                                     <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
                                         <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path>
                                     </svg>
-                                </div>
-                            </div>
+                                </router-link>
+                            </router-link>
                         </div>
                     </div>
                 </div>
@@ -62,10 +59,10 @@
                             <div class="author"> By <span class="name">{{ profile.user_name }}</span></div>
                             <div class="author"> 가입일 <span class="name">{{ profile.created_at.slice(0, 10) }}</span></div>
                         </div>
-                        <div class="guestbook-comment" v-if="userid===profile.id">
+                        <div class="guestbook-comment">
                             <div class="submit-box">
-                                <router-link :to="`/profile/update/${profile.id}`" class="Btn" @click="editProfile()">수정
-                                    <svg class="Btn-svg" viewBox="0 0 512 512">
+                                <router-link :to="`/profile/update/${profile.id}`" class="write-btn" @click="editProfile()">수정
+                                    <svg class="write-btn-svg" viewBox="0 0 512 512">
                                         <path
                                             d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z">
                                         </path>
@@ -167,27 +164,6 @@ header > .profile > h3 {
 }
 
 
-.quit-button {
- display: flex;
- /* height: 3em; */
- width: 100px;
- align-items: center;
- justify-content: center;
- background-color: #eeeeee4b;
- border-radius: 3px;
- letter-spacing: 1px;
- transition: all 0.2s linear;
- cursor: pointer;
- border: none;
- background: #fff;
-}
-.quit-button > svg {
- margin-right: 5px;
- margin-left: 5px;
- font-size: 20px;
- transition: all 0.4s ease-in;
-}
-
 /* 프로필 카드 */
 
 .card {
@@ -270,55 +246,6 @@ header > .profile > h3 {
   font-weight: lighter;
 }
 
-/* 새 글 쓰기 button */
-
-.Btn {
-    margin-right: 15px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100px;
-    height: 40px;
-    border: none;
-    padding: 0px 20px;
-    background-color: #9e2070;
-    color: white;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    border-radius: 5px;
-    transition-duration: .3s;
-    box-shadow: 0 2px 5px rgba(70, 70, 70, 0.5);
-}
-.Btn-svg {
-    width: 13px;
-    position: absolute;
-    right: 0;
-    margin-right: 20px;
-    fill: white;
-    transition-duration: .3s;
-}
-  
-.Btn:hover {
-    color: transparent;
-}
-  
-.Btn:hover svg {
-    right: 43%;
-    margin: 0;
-    padding: 0;
-    border: none;
-    transition-duration: .3s;
-}
-  
-.Btn:active {
-    transform: translate(0, 3px);
-    transition-duration: .3s;
-    box-shadow: 2px 2px 0px #6a154b;
-}
-
-
 /***** 커뮤니티 area *****/
 .inner {
     display: flex;
@@ -338,7 +265,7 @@ header > .profile > h3 {
 
 .list {
     margin: 0px auto;
-    padding-left: auto;
+    margin-bottom: auto;
     min-height: 450px;
 }
 
@@ -408,8 +335,8 @@ header > .profile > h3 {
 }
 
 .new-text-introduction {
-    margin: 10px 8px 6px 15px;
-    height: 100%;
+    margin: 10px 8px 10px 15px;
+    height: 80%;
     font-size: 0.8rem;
     color: #909090;
     text-indent: 7px;
@@ -482,7 +409,7 @@ header > .profile > h3 {
 }
 
 
-/***** 버튼 css *****/
+/***** 관리 버튼 css *****/
 .visit-button {
     margin-left: auto;
     display: flex;
@@ -524,5 +451,193 @@ header > .profile > h3 {
     transform: translateY(-3px);
 }
 
+
+
+/* 유저 프로필 */
+
+.guestbook-comment > .submit-box {
+    display: flex;
+}
+
+.guestbook-comment {
+    height: 150px;
+    float: right;
+    width: 235px;
+    padding-right: 100px;
+    padding-top: 50px;
+}
+
+.guestbook-comment > .submit-box {
+    display: flex;
+    height: 43px;
+    top: 0;
+    bottom: 0;
+    left: 33%;
+    margin: 0 auto;
+    margin-right:28px;
+}
+
+.quit-button {
+    width: 100px;
+    height: 40px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 31px 11px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 5px;
+    color: hsl(0, 0%, 100%);
+    background-color: #909090;
+    box-shadow: 0 2px 5px rgba(70, 70, 70, 0.5);
+}
+
+.quit-button:hover {
+    background-color: rgb(185, 0, 0);
+}
+
+/* 프로필 수정 button */
+
+.write-btn {
+    margin-right: 15px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 70px;
+    height: 40px;
+    border: none;
+    padding: 0px 20px;
+    background-color: #9e2070;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 5px;
+    transition-duration: .3s;
+    box-shadow: 0 2px 5px rgba(70, 70, 70, 0.5);
+}
+.write-btn-svg {
+    width: 13px;
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+    fill: white;
+    transition-duration: .3s;
+}
+  
+.write-btn:hover {
+    color: transparent;
+}
+  
+.write-btn:hover svg {
+    right: 43%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    transition-duration: .3s;
+}
+  
+.write-btn:active {
+    transform: translate(0, 3px);
+    transition-duration: .3s;
+    box-shadow: 2px 2px 0px #6a154b;
+}
+
+/* 새 커뮤니티 만들기 버튼 */
+.create-button {
+    margin: 20px 40px;
+    width: 110px;
+    height: 20px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px 11px;
+    font-size: 15px;
+    font-weight: 700;
+    color: hsl(0, 0%, 100%);
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    background-color: #9E2067;
+    box-shadow: 0 2px 5px rgba(70, 70, 70, 0.5);
+  }
+
+.create-button::after,
+.create-button::before {
+    transition: all 0.2s ease-in-out;
+  }
+
+.create-button:hover {
+    background-color: #c3348e;
+}
+
+.create-button::before {
+    z-index: -1;
+    position: absolute;
+    content: "";
+    left: -2em;
+    right: -2em;
+    top: -2em;
+    bottom: -2em;
+    background-repeat: no-repeat;
+    background-image: radial-gradient(circle, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, transparent 10%, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, transparent 10%, white 20%, transparent 20%),
+      radial-gradient(circle, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, transparent 10%, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, transparent 10%, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, transparent 10%, #ff0081 20%, transparent 20%),
+      /*  */
+        radial-gradient(circle, transparent 10%, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, transparent 10%, white 20%, transparent 20%),
+      radial-gradient(circle, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, transparent 10%, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, #ff0081 20%, transparent 20%),
+      radial-gradient(circle, transparent 10%, white 20%, transparent 20%);
+    background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%,
+      10% 10%, 18% 18%, 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%,
+      20% 20%;
+    background-position: 18% 40%, 20% 31%, 30% 30%, 40% 30%, 50% 30%, 57% 30%,
+      65% 30%, 80% 32%, 15% 60%, 83% 60%, 18% 70%, 25% 70%, 41% 70%, 50% 70%,
+      64% 70%, 80% 71%;
+}
+
+.create-button:hover::before {
+    background-position: 5% 44%, -5% 20%, 7% 5%, 23% 0%, 37% 0, 58% -2%, 80% 0%,
+      100% -2%, -5% 80%, 100% 55%, 2% 100%, 23% 100%, 42% 100%, 60% 95%, 70% 96%,
+      100% 100%;
+    background-size: 0% 0%;
+    transition: background-position 0.5s ease-in-out,
+      background-size 0.75s ease-in-out;
+}
+
+.make-new-box {
+    display: inline-flexbox;
+    width: 300px;
+    height: 200px;
+    justify-content: center;
+}
+
+.make-new-box p {
+    margin-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    color: #707070;
+}
+
+.make-new-box li {
+    list-style-type: none;
+    color: #707070;
+    padding-top: 30px;
+    padding-bottom: 5px;
+    margin-left: 15px;
+}
 
 </style>
