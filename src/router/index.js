@@ -25,6 +25,7 @@ import FeedSearchView from '../views/feed/FeedSearchView.vue'
 import PurchaseWrite from '@/components/PurchaseWrite.vue'
 import PurchaseUpdateView from '../views/feed/PurchaseUpdateView.vue'
 import PurchaseDetailView from '../views/feed/PurchaseDetailView.vue'
+import NaverMap from "@/components/NaverMap.vue"
 
 Vue.use(VueRouter)
 
@@ -252,6 +253,11 @@ export const router = new VueRouter({
                 }
             }
         },
+        {
+            path:'/map',
+            name:"naver-map",
+            component:NaverMap,
+        }
     ],
     scrollBehavior() {
         return { x: 0, y: 0 }

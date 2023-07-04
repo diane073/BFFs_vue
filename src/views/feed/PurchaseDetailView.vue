@@ -109,7 +109,9 @@
                               <li class="meeting-at">{{ feed.meeting_at.slice(0, 10) }} {{ feed.meeting_at.slice(11, 16) }}</li>
                               <li class="end-option">{{ feed.end_choice }}</li>
                               <!-- 지도 api 넣을 예정 -->
-                              <div id="map" class="mapping" style="display: none;"></div>
+                              <div id="map" class="mapping">
+                                <!-- <NaverMap /> -->
+                              </div>
                               <div class="parti-button-box">
                                   <button class="party-button" @click="submitOpen()">
                                       <p>Subscribe</p>
@@ -289,8 +291,12 @@ fetchGroupPurchaseCommentCreate,
 fetchGroupPurchaseCommentEdit,
 fetchGroupPurchaseCommentDelete,
 } from "@/api/index.js";
+// import NaverMap from '@/components/NaverMap.vue';
 
 export default {
+  // components: {
+  //   NaverMap, 
+  //   },
     computed: {
         ...mapGetters({ data: "fetchGroupPurchaseDetail" }),
         feed() {
