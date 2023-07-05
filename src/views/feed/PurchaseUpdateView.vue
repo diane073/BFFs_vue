@@ -48,13 +48,13 @@
               <div class="input-date-wrapper">
                 <!-- js로 오늘 날짜 가져와서 띄워주어야함 / step 10분 단위로 시간 받기 / min=선택 시간 제한, 현재 시간 넣기 -->
                 <!-- https://sorto.me/docs/Web/HTML/Element/input/datetime-local#%EC%84%A0%ED%83%9D-%EA%B0%80%EB%8A%A5%ED%95%9C-%EB%82%A0%EC%A7%9C-%EB%B0%8F-%EC%8B%9C%EA%B0%84-%EB%B2%94%EC%9C%84-%EC%A0%9C%ED%95%9C%ED%95%98%EA%B8%B0 -->
-                <input class="gp-input-box" type="datetime-local" v-model="feeds.open_at" min="" step="600">
+                <input class="gp-input-box" type="datetime-local" v-model="open_at" min="" step="600">
               </div>
             </dd>
             <dt class="close-at">모집 종료 시간</dt>
             <dd class="close-at-text">
               <div class="input-date-wrapper">
-                <input class="gp-input-box" type="datetime-local" v-model="feeds.close_at" min="" step="600">
+                <input class="gp-input-box" type="datetime-local" v-model="close_at" min="" step="600">
               </div>
             </dd>
           </dl>
@@ -82,7 +82,7 @@
             <dt class="meeting-at">만날 시간</dt>
             <dd class="meeting-at-text">
               <div class="input-wrapper">
-                <input class="gp-input-box" type="datetime-local" v-model="feeds.meeting_at" min="" step="600">
+                <input class="gp-input-box" type="datetime-local" v-model="meeting_at" min="" step="600">
               </div>
             </dd>
             <div class="mapping" style="display: none;">
@@ -115,6 +115,30 @@ export default {
     feeds() {
       return this.feed?.grouppurchase;
     },
+    open_at: {
+      get(){
+        return this.feeds?.open_at.substring(0, 16);
+      },
+      set(value){
+        this.feeds.open_at = value;
+      }
+    },
+    close_at: {
+      get(){
+        return this.feeds?.close_at.substring(0, 16);
+      },
+      set(value){
+        this.feeds.close_at = value;
+      }
+    },
+    meeting_at: {
+      get(){
+        return this.feeds?.meeting_at.substring(0, 16);
+      },
+      set(value){
+        this.feeds.meeting_at = value;
+      }
+    },
 	},
 	created() {
 		const community_name = this.$route.params.community_name;
@@ -127,33 +151,24 @@ export default {
     },
     async editFeed() {
         try{
-            if (this.feeds.open_at.length === 16) {
-              this.feeds.open_at += ":00";
-            }
-            if (this.feeds.close_at.length === 16) {
-              this.feeds.close_at += ":00";
-            }
-            if (this.feeds.meeting_at.length === 16) {
-              this.feeds.meeting_at += ":00";
-            }
-
             const community_name = this.$route.params.community_name;
             const grouppurchase_id = this.$route.params.grouppurchase_id;
-            const title = this.feeds.title;
-            const content = this.feeds.content;
-            const product_name = this.feeds.product_name;
-            const product_number = this.feeds.product_number;
-            const product_price = this.feeds.product_price;
-            const person_limit = this.feeds.person_limit;
-            const link = this.feeds.link;
-            const open_at = this.feeds.open_at;
-            const close_at = this.feeds.close_at;
-            const end_option = this.feeds.end_option;
-            const location = this.feeds.location;
-            const meeting_at = this.feeds.meeting_at;
-
+            const data={
+              title : this.feeds.title,
+              content : this.feeds.content,
+              product_name : this.feeds.product_name,
+              product_number : this.feeds.product_number,
+              product_price : this.feeds.product_price,
+              person_limit : this.feeds.person_limit,
+              link : this.feeds.link,
+              open_at : this.open_at + ":00",
+              close_at : this.close_at + ":00",
+              end_option : this.feeds.end_option,
+              location : this.feeds.location,
+              meeting_at : this.meeting_at + ":00",
+            }
             const response = await fetchGroupPurchaseEdit(
-              community_name, grouppurchase_id, title, content, product_name, product_number, product_price, person_limit, link, open_at, close_at, end_option, location, meeting_at,
+              community_name, grouppurchase_id, data,
             );
             if(response.status === 200){
               this.snotify('success',response.data.message)
@@ -162,7 +177,13 @@ export default {
                 params: {community_name: this.$route.params.community_name, grouppurchase_id: this.$route.params.grouppurchase_id}});
             }
         }catch(error){
-          this.snotify('error',error.response.data.message)
+          if (error.response.data.message) {
+            this.snotify("error",error.response.data.message);
+          } else if (error.response.data.error) {
+            this.snotify("error",error.response.data.error);
+          } else {
+            this.snotify("error","빈 칸을 입력해주세요");
+          }
         }
     },
     async handleImageAdded(file, Editor, cursorLocation, resetUploader) {

@@ -163,33 +163,6 @@
                                 </div>
                             </div>
                         </div> 
-
-                        <!--<div class="main-container-3">
-                            <h3 class="gp-menu-title">내가 참여 중인 공동구매</h3>
-                            <div class="main-box-3">
-                                <div class="new-card-wrapper-2" v-if="feed?.length == 0">
-                                    <p>참여중인 공동구매가 없습니다</p>
-                                </div>
-                                <div class="new-card-wrapper-2" v-else>  
-                                    <div class="my-feeds-box">
-                                        <div class="main-card-wrapper">
-                                            <router-link :to="`/community/detail/${grouppurchase.community_url}/groupbuy/${grouppurchase.id}`" v-for="(grouppurchase, index) in grouppurchase" :key=index>
-                                                <div class="gp-content-card">
-                                                    <div class="gp-title-box">
-                                                        <span class="content-title">{{ grouppurchase.title }}</span>
-                                                    </div>
-                                                    <span id="gp-product-name" class="gp-product-name"><div v-html="grouppurchase.product_name"></div></span>
-                                                    <li>시작일</li>
-                                                    <p class="gp-content-date">{{ grouppurchase.open_at.slice(0,10) }} | {{ grouppurchase.open_at.slice(12,19) }}</p>
-                                                    <li>마감일</li>
-                                                    <p class="gp-content-date">{{ grouppurchase.close_at.slice(0,10) }} | {{ grouppurchase.close_at.slice(12,19) }}</p>
-                                                </div>
-                                            </router-link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>--> 
                     </div>
 
                     <div class="main-container-3" v-if="purchaseopen">
@@ -232,27 +205,27 @@
                             <img src="@/assets/room_image(5).jpg" v-else />
                         </div>
                         <div class="category"> {{ profile.nickname }} | {{ profile.region }} </div>
-                        <div class="heading" v-if="profile.introduction != null"> {{ profile.introduction }}
-                            <div class="author"> By <span class="name">{{ profile.user_name }}</span></div>
-                            <div class="author"> 가입일 <span class="name">{{ profile.created_at.slice(0, 10) }}</span></div>
+                            <div class="heading" v-if="profile.introduction != null"> {{ profile.introduction }}
+                                <div class="author"> By <span class="name">{{ profile.user_name }}</span></div>
+                                <div class="author"> 가입일 <span class="name">{{ profile.created_at.slice(0, 10) }}</span></div>
+                            </div>
+                            <div class="heading" v-else> 인사말이 없습니다
+                                <div class="author"> By <span class="name">{{ profile.user_name }}</span></div>
+                                <div class="author"> 가입일 <span class="name">{{ profile.created_at.slice(0, 10) }}</span></div>
+                            </div>
+                            <div class="guestbook-comment" v-if="userid===profile.id">
+                                <div class="submit-box">
+                                    <router-link :to="`/profile/update/${profile.id}`" class="Btn" @click="editProfile()">수정
+                                        <svg class="Btn-svg" viewBox="0 0 512 512">
+                                            <path
+                                                d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z">
+                                            </path>
+                                        </svg>
+                                    </router-link>
+                                    <button class="quit-button" @click="PasswordWithdrawalModal">탈퇴</button>
+                                </div>               
+                            </div>
                         </div>
-                        <div class="heading" v-else> 인사말이 없습니다
-                            <div class="author"> By <span class="name">{{ profile.user_name }}</span></div>
-                            <div class="author"> 가입일 <span class="name">{{ profile.created_at.slice(0, 10) }}</span></div>
-                        </div>
-                        <div class="guestbook-comment" v-if="userid===profile.id">
-                            <div class="submit-box">
-                                <router-link :to="`/profile/update/${profile.id}`" class="Btn" @click="editProfile()">수정
-                                    <svg class="Btn-svg" viewBox="0 0 512 512">
-                                        <path
-                                            d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z">
-                                        </path>
-                                    </svg>
-                                </router-link>
-                                <button class="quit-button" @click="deleteUserCheck()">탈퇴</button>
-                            </div>               
-                        </div>
-                    </div>
 
                     <div class="radioinput">
                         <button class="value" :class="{ 'active': notificationopen}" @click="notificationOpen">
@@ -344,7 +317,7 @@
 <script>
 import PasswordWithdrawalModal from "@/components/PasswordWithdrawalModal.vue";
 import { mapGetters } from "vuex";
-import  {  fetchGuestBook, fetchGuestBookEdit, fetchGuestBookDelete, fetchProfileDelete } from "@/api/index.js";
+import  {  fetchGuestBook, fetchGuestBookEdit, fetchGuestBookDelete} from "@/api/index.js";
 import bus from '@/utils/bus.js'
 
 
@@ -419,22 +392,27 @@ export default {
             this.$forceUpdate()
         },
         async createComment() {
-            try {
-                const profile_id = this.$route.params.id;
-                const response = await fetchGuestBook(profile_id, this.inputComment)
-                if (response.status === 200) {
-                    this.snotify('success','방명록을 작성했습니다.')
-                    const user_id = this.$route.params.id
-                    this.$store.dispatch("FETCH_USER_PROFILE", user_id);
-                    this.inputComment='';
-                }
-            } catch (error) {
-                if (error.response.status === 401) {
-                    this.snotify('warning',"로그인을 해주세요");
-                }else{
-                    this.snotify('error','방명록 작성에 실패했습니다.')
-                }
-            } 
+            if (this.inputComment=="") {
+                this.snotify("warning","댓글 입력란이 공백입니다!")
+            } else {
+                try {
+                    const profile_id = this.$route.params.id;
+                    const response = await fetchGuestBook(profile_id, this.inputComment)
+                    if (response.status === 200) {
+                        this.snotify('success','방명록을 작성했습니다.')
+                        const user_id = this.$route.params.id
+                        this.$store.dispatch("FETCH_USER_PROFILE", user_id);
+                        this.inputComment='';
+                    }
+                } catch (error) {
+                    if (error.response.status === 401) {
+                        this.snotify('warning',"로그인을 해주세요");
+                    }else{
+                        this.snotify('error','방명록 작성에 실패했습니다.')
+                        this.inputComment='';
+                    }
+                } 
+            }
         },
         async editComment(guestbook_id) {
             try {
@@ -447,7 +425,8 @@ export default {
                     this.$store.dispatch("FETCH_USER_PROFILE", user_id);
                 }
             } catch (error) {
-                console.log(error)
+                this.snotify('error','방명록 수정에 실패했습니다.')
+                this.inputUpdateComment = '';
             } 
         },
         async deleteComment(guestbook_id) {
@@ -455,7 +434,6 @@ export default {
                 const profile_id = this.$route.params.id;
                 const response = await fetchGuestBookDelete(profile_id, guestbook_id)
                 if (response.status === 204) {
-                    console.log(response)
                     const user_id = this.$route.params.id
                     this.$store.dispatch("FETCH_USER_PROFILE", user_id);
                     this.snotify('success','방명록 삭제가 완료되었습니다.')
@@ -464,24 +442,8 @@ export default {
                 this.snotify('error','방명록 삭제에 실패했습니다.')
             } 
         },
-
-        deleteUserCheck() {
-            const check = confirm('계정을 비활성화 하시겠습니까?')
+        PasswordWithdrawalModal(){
             this.modalopen = true;
-            if (check) {
-                this.deleteUser();
-            }
-
-        },
-        async deleteUser() {
-            try {                
-                const response = await fetchProfileDelete(this.userid)
-                if (response.status === 204) {
-                    this.snotify('info',response.data.message)
-                }
-            } catch (error) {
-                this.snotify('error','계정 비활성화에 실패했습니다.')
-            } 
         },
         snotify(type,message){
             bus.$emit('showSnackbar',{
@@ -1016,13 +978,14 @@ header > .profile > h3 {
 }
 
 .new-card-wrapper {
-    width: 800px;
+    width: 700px;
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
 }
 .new-card-wrapper::-webkit-scrollbar{
     height: 7px;
+    background-color: #F5F5F5;
 }
 .new-card-wrapper::-webkit-scrollbar-thumb{
     background-color: #a92278;
@@ -1552,7 +1515,6 @@ header > .profile > h3 {
     margin: 20px 0px;
     padding: 10px 10px;
     width: 95%;
-    height: 320px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -1567,7 +1529,10 @@ header > .profile > h3 {
     background-color: #9E2067;
     border-radius: 10px;
 }
-
+.my-feeds-box::-webkit-scrollbar-track{
+    background-color: #ffffff;
+    border-radius: 10px;
+}
 .content-card {
     width: 350px;
     height: 50px;
