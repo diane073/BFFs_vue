@@ -66,7 +66,7 @@
                         <div class="input-text-info">
                             <p> 개인 정보 등 민감 정보를 입력하지 않도록 주의하세요!</p>
                         </div>
-                        <textarea autocomplete="off" class="input-text" placeholder="말을 걸어보세요:)" v-model="text" @keyup.enter="createConversation()" :disabled="isDisabled"></textarea>
+                        <textarea autocomplete="off" class="input-text" placeholder="말을 걸어보세요:)" v-model="text" :disabled="isDisabled"></textarea>
                         <button class="submit-button" @click="createConversation()" :disabled="isDisabled">입 력</button>
                     </div>
                 </div>
@@ -106,10 +106,11 @@ export default {
         },
         async createConversation() {
             try {
-                if (!this.text || this.text==="") {
+                if (!this.text || this.text==="" || this.text.replace(/\s|| /gi, "").length === 0) {
+                    this.text = '';
                     return this.snotify('info',"하고싶은 말을 적어주세요");
                 }
-                
+
                 this.conversation.push(this.text);
                 this.isDisabled = true;
                 
@@ -120,13 +121,13 @@ export default {
                 }
 
                 const user_input = this.text;
-                this.text = '';
 
                 const response = await fetchMeetAICreate(user_input);
                 if (response.status === 200) {
                     this.firstloader = this.loadershow = false;
                     this.conversation.push(response.data.ai);
                     this.isDisabled = false;
+                    this.text = '';
                 }
             } catch (error) {
                 if (error.response.status == 500) {
