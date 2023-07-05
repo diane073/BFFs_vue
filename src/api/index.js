@@ -331,13 +331,11 @@ function fetchFeedDetail(community_name,feed_id) {
     const token = access_token()
     if (token) {
         return axios.get(`${config.baseUrl}/community/${community_name}/feed/${feed_id}/`,{
-        return axios.get(`${config.baseUrl}/community/${community_name}/feed/${feed_id}/`,{
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
         })
     } else {
-        return axios.get(`${config.baseUrl}/community/${community_name}/feed/${feed_id}/`)
         return axios.get(`${config.baseUrl}/community/${community_name}/feed/${feed_id}/`)
     }
 }
@@ -348,11 +346,8 @@ function fetchCommunityCategoryPagination(url){
 // 피드 생성
 function fetchFeedCreate(community_name,title,content,category_id) {
     return axios.post(`${config.baseUrl}/community/${community_name}/feed/`,{
-function fetchFeedCreate(community_name,title,content,category_id) {
-    return axios.post(`${config.baseUrl}/community/${community_name}/feed/`,{
         title,
         content,
-        category_id,
         category_id,
     },
     {
@@ -364,8 +359,6 @@ function fetchFeedCreate(community_name,title,content,category_id) {
 }
 
 // 피드 수정
-function fetchFeedEdit(community_name,feed_id,title,content) {
-    return axios.put(`${config.baseUrl}/community/${community_name}/feed/${feed_id}/`,{
 function fetchFeedEdit(community_name,feed_id,title,content) {
     return axios.put(`${config.baseUrl}/community/${community_name}/feed/${feed_id}/`,{
         title,
@@ -382,7 +375,6 @@ function fetchFeedEdit(community_name,feed_id,title,content) {
 // 피드 삭제
 function fetchFeedDelete(community_name,feed_id) {
     return axios.delete(`${config.baseUrl}/community/${community_name}/feed/${feed_id}/`,{
-    return axios.delete(`${config.baseUrl}/community/${community_name}/feed/${feed_id}/`,{
         headers: {
             'Authorization': `Bearer ${access_token()}`,
         }
@@ -391,7 +383,6 @@ function fetchFeedDelete(community_name,feed_id) {
 
 // 피드 좋아요
 function fetchFeedLike(feed_id) {
-    return axios.post(`${config.baseUrl}/feed/${feed_id}/likes/`,{},{
     return axios.post(`${config.baseUrl}/feed/${feed_id}/likes/`,{},{
         headers: {
             'Authorization': `Bearer ${access_token()}`,
@@ -410,12 +401,9 @@ function fetchFeedNotification(feed_id) {
 // 공구 커뮤니티 리스트 조회
 function fetchGroupPurchaseList(community_name) {
     return axios.get(`${config.baseUrl}/community/${community_name}/grouppurchase/list/`)
-    return axios.get(`${config.baseUrl}/community/${community_name}/grouppurchase/list/`)
 }
 
 // 공구 참여
-function fetchGroupPurchaseJoin(community_name, grouppurchase_id, product_quantity) {
-    return axios.post(`${config.baseUrl}/community/${community_name}/grouppurchase/${grouppurchase_id}/join/`,{
 function fetchGroupPurchaseJoin(community_name, grouppurchase_id, product_quantity) {
     return axios.post(`${config.baseUrl}/community/${community_name}/grouppurchase/${grouppurchase_id}/join/`,{
         product_quantity
@@ -442,7 +430,6 @@ function fetchGroupPurchaseCreate(community_url, data) {
 function fetchGroupPurchaseDetail(community_name, grouppurchase_id) {
     const token = access_token()
     if (token) {
-        return axios.get(`${config.baseUrl}/community/${community_name}/grouppurchase/${grouppurchase_id}/`,{
         return axios.get(`${config.baseUrl}/community/${community_name}/grouppurchase/${grouppurchase_id}/`,{
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -563,8 +550,6 @@ function imageUpload(file) {
 }
 
 // 공구 댓글 생성
-function fetchGroupPurchaseCommentCreate(community_name, grouppurchase_id, text) {
-    return axios.post(`${config.baseUrl}/community/${community_name}/grouppurchase/${grouppurchase_id}/purchasecomment/`,{
 function fetchGroupPurchaseCommentCreate(community_name, grouppurchase_id, text) {
     return axios.post(`${config.baseUrl}/community/${community_name}/grouppurchase/${grouppurchase_id}/purchasecomment/`,{
         text,
